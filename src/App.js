@@ -82,10 +82,10 @@ const App = () => {
   ]
   const [display, setDisplay] = useState('Drum Machine')
 
-  const handleClick = (letra) => {
-    const audioQ = document.getElementById(letra)
+  const handleClick = (letter) => {
+    const audio = document.getElementById(letter)
 
-    const DRUM_Q_CLASS = `drum_pad_${letra}`
+    const DRUM_Q_CLASS = `drum_pad_${letter}`
     const DRUM_ANIMATION = 'drum-pad-animation'
     const drumButton = document.getElementById(DRUM_Q_CLASS)
 
@@ -99,13 +99,25 @@ const App = () => {
       }, 150)
     }
 
-    if (audioQ) {
-      audioQ.currentTime = 0
-      audioQ.play().catch((err) => console.log(err))
+    if (audio) {
+      const { instrument } = drumButton.dataset
+
+      setDisplay(instrument)
+
+      audio.currentTime = 0
+      audio.play()
     }
   }
 
   useEffect(() => {
+    const displayTimer = setTimeout(() => {
+      const DRUM_MACHINE_DISPLAY = 'Drum Machine'
+
+      if (display !== DRUM_MACHINE_DISPLAY) {
+        setDisplay(DRUM_MACHINE_DISPLAY)
+      }
+    }, 800)
+
     window.addEventListener('keyup', (e) => {
       handleClick(e.key.toUpperCase())
     })
@@ -114,8 +126,10 @@ const App = () => {
       window.removeEventListener('keyup', (e) => {
         handleClick(e.key.toUpperCase())
       })
+
+      clearTimeout(displayTimer)
     }
-  }, [])
+  }, [display])
 
   return (
     <div id='drum-machine'>

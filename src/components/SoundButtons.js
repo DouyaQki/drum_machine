@@ -9,7 +9,7 @@ const SoundButtons = ({
   handleClick,
 }) => {
   return (
-    <div className='drum-pad' id={divId} onClick={() => handleClick(text)}>
+    <div className='drum-pad' id={divId} data-instrument={instrument} onClick={() => handleClick(text)}>
       {text}
       <audio src={audioSrc} className='clip' id={text} />
     </div>
