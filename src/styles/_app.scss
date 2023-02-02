@@ -6,6 +6,10 @@
   --border-radius-buttons: 0.5rem;
 }
 
+#display {
+  font-size: 1.4rem;
+}
+
 #drum-machine {
   display: flex;
   flex-direction: column;
@@ -51,8 +55,12 @@
     grid-area: #{$drum_pad_letter};
     width: var(--width-height-buttons);
     height: var(--width-height-buttons);
+    border: none;
     border-radius: var(--border-radius-buttons);
+    color: #fafafa;
     background-color: var(--background-buttons);
+    font-weight: bold;
+    font-size: 1.4rem;
     transition: all 100ms ease;
   }
 }

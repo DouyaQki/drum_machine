@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import './styles/_app.scss'
 import SoundButtons from './components/SoundButtons'
 
@@ -7,77 +7,68 @@ const App = () => {
     // Q W E
     {
       id: 1,
-      divId: 'drum_pad_Q',
+      buttonId: 'drum_pad_Q',
       text: 'Q',
       audioSrc: 'https://s3.amazonaws.com/freecodecamp/drums/Heater-1.mp3',
       instrument: 'Heater-1',
-      audioRef: useRef(null),
     },
     {
       id: 2,
-      divId: 'drum_pad_W',
+      buttonId: 'drum_pad_W',
       text: 'W',
       audioSrc: 'https://s3.amazonaws.com/freecodecamp/drums/Heater-2.mp3',
       instrument: 'Heater-2',
-      audioRef: useRef(null),
     },
     {
       id: 3,
-      divId: 'drum_pad_E',
+      buttonId: 'drum_pad_E',
       text: 'E',
       audioSrc: 'https://s3.amazonaws.com/freecodecamp/drums/Heater-3.mp3',
       instrument: 'Heater-3',
-      audioRef: useRef(null),
     },
     // A S D
     {
       id: 4,
-      divId: 'drum_pad_A',
+      buttonId: 'drum_pad_A',
       text: 'A',
       audioSrc: 'https://s3.amazonaws.com/freecodecamp/drums/Heater-4_1.mp3',
       instrument: 'Heater-4',
-      audioRef: useRef(null),
     },
     {
       id: 5,
-      divId: 'drum_pad_S',
+      buttonId: 'drum_pad_S',
       text: 'S',
       audioSrc: 'https://s3.amazonaws.com/freecodecamp/drums/Heater-6.mp3',
       instrument: 'Heater-6',
-      audioRef: useRef(null),
     },
     {
       id: 6,
-      divId: 'drum_pad_D',
+      buttonId: 'drum_pad_D',
       text: 'D',
       audioSrc: 'https://s3.amazonaws.com/freecodecamp/drums/Dsc_Oh.mp3',
       instrument: 'Dsc_Oh',
-      audioRef: useRef(null),
     },
     // Z X C
     {
       id: 7,
-      divId: 'drum_pad_Z',
+      buttonId: 'drum_pad_Z',
       text: 'Z',
       audioSrc: 'https://s3.amazonaws.com/freecodecamp/drums/Kick_n_Hat.mp3',
       instrument: 'Kick_n_Hat',
-      audioRef: useRef(null),
     },
     {
       id: 8,
-      divId: 'drum_pad_X',
+      buttonId: 'drum_pad_X',
       text: 'X',
       audioSrc: 'https://s3.amazonaws.com/freecodecamp/drums/RP4_KICK_1.mp3',
       instrument: 'RP4_KICK_1',
-      audioRef: useRef(null),
     },
     {
       id: 9,
-      divId: 'drum_pad_C',
+      buttonId: 'drum_pad_C',
       text: 'C',
       audioSrc: 'https://s3.amazonaws.com/freecodecamp/drums/Cev_H2.mp3',
       instrument: 'Cev_H2',
-      audioRef: useRef(null),
     },
   ]
   const [display, setDisplay] = useState('Drum Machine')
@@ -109,7 +100,8 @@ const App = () => {
     }
   }
 
-  useEffect(() => {
+  //* Key sounds and drum display ----------------------->
+  const keyboardSounds = () => {
     const displayTimer = setTimeout(() => {
       const DRUM_MACHINE_DISPLAY = 'Drum Machine'
 
@@ -118,28 +110,30 @@ const App = () => {
       }
     }, 800)
 
-    window.addEventListener('keyup', (e) => {
+    const addEventKeyupCallback = (e) => {
       handleClick(e.key.toUpperCase())
-    })
+    }
+
+    window.addEventListener('keyup', addEventKeyupCallback)
 
     return () => {
-      window.removeEventListener('keyup', (e) => {
-        handleClick(e.key.toUpperCase())
-      })
+      window.removeEventListener('keyup', addEventKeyupCallback)
 
       clearTimeout(displayTimer)
     }
-  }, [display])
+  }
+
+  useEffect(keyboardSounds, [display])
 
   return (
     <div id='drum-machine'>
-      <div id='display'>{display}</div>
+      <h1 id='display'>{display}</h1>
       <div className='drum-pad-box'>
-        {drumpad.map(({ id, divId, text, audioSrc, instrument }) => (
+        {drumpad.map(({ id, buttonId, text, audioSrc, instrument }) => (
           <SoundButtons
             key={id}
             setDisplay={setDisplay}
-            divId={divId}
+            buttonId={buttonId}
             text={text}
             audioSrc={audioSrc}
             instrument={instrument}
